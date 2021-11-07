@@ -1,0 +1,5 @@
+.stack-work/
+docker-build.sh
+docker-run.sh
+Dockerfile
+*~
