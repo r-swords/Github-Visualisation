@@ -31,6 +31,15 @@ data RepoContributor =
                   , contributions :: Integer
                   } deriving (Generic, FromJSON, ToJSON, Show)
 
+data Committer =
+  Committer { date :: Text } deriving (Generic, FromJSON, ToJSON, Show)
+
+data Commits =
+  Commits { committer :: Committer } deriving (Generic, FromJSON, ToJSON, Show)
+
+data RepoCommits =
+  RepoCommits { commit :: Commits } deriving (Generic, FromJSON, ToJSON, Show)
+
 type GitHubAPI = "repos" :> Header "user-agent" UserAgent
             		         :> BasicAuth "github" Int
             		         :> Capture "username" Username
@@ -41,10 +50,16 @@ type GitHubAPI = "repos" :> Header "user-agent" UserAgent
                          :> Capture "username" Username
                          :> Capture "repo"     Reponame  :> "contributors" :>  Get '[JSON] [RepoContributor]
 
+            :<|> "repos" :> Header  "user-agent" UserAgent
+                         :> BasicAuth "github" Int
+                         :> Capture "username" Username
+                         :> Capture "repo"     Reponame  :> "commits" :>  Get '[JSON] [RepoCommits]
+
 gitHubAPI :: Proxy GitHubAPI
 gitHubAPI = Proxy
 
 getRepo ::          Maybe UserAgent -> BasicAuthData -> Username -> Reponame -> ClientM GitHubRepo
 getRepoContribs ::  Maybe UserAgent -> BasicAuthData -> Username -> Reponame -> ClientM [RepoContributor]
+getRepoCommits  ::  Maybe UserAgent -> BasicAuthData -> Username -> Reponame -> ClientM [RepoCommits]
 
-getRepo :<|> getRepoContribs = client gitHubAPI
+getRepo :<|> getRepoContribs :<|> getRepoCommits = client gitHubAPI
