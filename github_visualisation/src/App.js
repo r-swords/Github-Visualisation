@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect } from 'react';
 import './App.css';
 import repo from './repofile.json';
@@ -5,6 +6,8 @@ import contrib from './contribfile.json';
 import commit from './commitfile.json';
 import ReactDOM from 'react-dom';
 import {VictoryBar, VictoryPie, VictoryChart, VictoryArea} from 'victory';
+
+import { Chart } from 'react-charts'
 
 
 
@@ -27,16 +30,13 @@ function App() {
 
   const setLanguageData = (data) => {
     var arr = [];
-    console.log(data);
     Object.keys(data).forEach(key => arr.push({x: key, y: data[key]}));
-    console.log(arr);
     setLanguages(arr);
   }
 
   const setContributorData = (data) => {
     var arr = [];
-    Object.keys(data).forEach(key => arr.push({x: data[key].login, y: data[key].contributions}));
-    console.log(arr);
+    Object.keys(data).forEach(key => arr.push([data[key].login, data[key].contributions]));
     setContributors(arr);
   }
 
@@ -52,14 +52,12 @@ function App() {
       }
     }
     var arr = [];
-    console.log(obj);
     for(var node in obj){
         arr.push({x: new Date(node), y: obj[node]})
     }
     var arr2 = [];
-    var min = arr[arr.length - 1].x;
+    var currentDate = arr[arr.length - 1].x;
     var max = arr[0].x;
-    var currentDate = min;
     while(currentDate <= max){
       var count;
       if(obj[currentDate]){
@@ -68,20 +66,61 @@ function App() {
       else{
         count = 0;
       }
-      console.log(currentDate);
-      arr2.push({x: new Date(currentDate), y: count});
+      arr2.push([new Date(currentDate),count]);
       currentDate.setDate(currentDate.getDate() + 1);
     }
     setCommits(arr2);
-    console.log(arr);
-    console.log(arr2);
   }
 
+  const commitChartData = React.useMemo(
+    () => [
+      {
+        label: 'Commit Count',
+        data: commits
+      }
+    ],
+    []
+  )
 
+  const contribChartData = React.useMemo(
+    () => [
+      {
+        label: 'Contributor Count',
+        data: contributors
+      }
+    ],
+    []
+  )
 
-  function setTheLanguages(){
+  const series = React.useMemo(
+    () => ({
+      showPoints: false
+    }),
+    []
+  )
 
-  }
+  const barSeries = React.useMemo(
+    () => ({
+      type: 'bar'
+    }),
+    []
+  )
+
+  const lineAxes = React.useMemo(
+    () => [
+      { primary: true, type: 'utc', position: 'bottom' },
+      { type: 'linear', position: 'left' }
+    ],
+    []
+  )
+
+  const barAxes = React.useMemo(
+    () => [
+      { primary: true, type: 'ordinal', position: 'bottom' },
+      { type: 'linear', position: 'left', stacked: true }
+    ],
+    []
+  )
 
   return (
     <div className="App">
@@ -91,23 +130,12 @@ function App() {
           data={languages}
         />
       </div>
-      <VictoryChart>
-        <VictoryBar
-          data={contributors}
-          style={{
-            labels: {fontSize: 1, padding: 5}
-          }}
-        />
-      </VictoryChart>
-      <VictoryChart>
-
-        <VictoryArea
-          data={commits}
-          style={{
-            labels: {fontSize: 1, padding: 5}
-          }}
-        />
-      </VictoryChart>
+      <div style={{ width: '500px', height: '300px'}}>
+        <Chart data={contribChartData} series={barSeries} axes={barAxes} tooltip />
+      </div>
+      <div style={{ width: '500px', height: '300px'}}>
+        <Chart data={commitChartData} series={series} axes={lineAxes} tooltip />
+      </div>
     </div>
   );
 }
