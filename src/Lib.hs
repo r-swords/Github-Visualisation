@@ -71,6 +71,14 @@ testGitHubCall auth name repo =
                 Right iss -> do
                   I.writeFile "github_visualisation/src/issuefile.json" (encodeToLazyText iss)
 
+                  (partitionEithers <$> mapM (getUsers auth) lang) >>= \case
+
+                    ([], contribs) ->
+                      I.writeFile "github_visualisation/src/userfile.json" (encodeToLazyText contribs)
+
+                    (ers, _)-> do
+                      Prelude.putStrLn $ "heuston, we have a problem (getting contributors): " ++ show ers
+
 
 
   where env :: IO SC.ClientEnv
@@ -78,9 +86,9 @@ testGitHubCall auth name repo =
           manager <- newManager tlsManagerSettings
           return $ SC.mkClientEnv manager (SC.BaseUrl SC.Http "api.github.com" 80 "")
 
-        getContribs :: BasicAuthData -> GH.Username -> GH.GitHubRepo -> IO (Either SC.ClientError [GH.RepoContributor])
-        getContribs auth name (GH.GitHubRepo repo _ _) =
-          SC.runClientM (GH.getRepoContribs (Just "haskell-app") auth name repo) =<< env
+        
+        getUsers auth (GH.RepoContributor name _) =
+          SC.runClientM (GH.getUser (Just "haskell-app") auth name) =<< env
 
 
         groupContributors :: [GH.RepoContributor] -> [GH.RepoContributor]
