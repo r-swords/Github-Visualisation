@@ -65,6 +65,12 @@ testGitHubCall auth name repo =
             Right com -> do
               I.writeFile "github_visualisation/src/commitfile.json" (encodeToLazyText com)
 
+              (SC.runClientM (GH.getRepoIssues (Just "haskell-app") auth name repo) =<< env) >>= \case
+                Left err -> do
+                  Prelude.putStrLn $ "heuston, we have a problem: " ++ show err
+                Right iss -> do
+                  I.writeFile "github_visualisation/src/issuefile.json" (encodeToLazyText iss)
+
 
 
   where env :: IO SC.ClientEnv
