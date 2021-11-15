@@ -73,11 +73,20 @@ testGitHubCall auth name repo =
 
                   (partitionEithers <$> mapM (getUsers auth) lang) >>= \case
 
-                    ([], contribs) ->
+                    ([], contribs) -> do
                       I.writeFile "github_visualisation/src/userfile.json" (encodeToLazyText contribs)
+                      (partitionEithers <$> mapM (getRepos auth) contribs) >>= \case
+                        ([], repositories) -> do
+                          I.writeFile "github_visualisation/src/userrepofile.json" (encodeToLazyText repositories)
+
+                        (errs, _)-> do
+                          Prelude.putStrLn $ "heuston, we have a problem (getting repos): " ++ show errs
 
                     (ers, _)-> do
                       Prelude.putStrLn $ "heuston, we have a problem (getting contributors): " ++ show ers
+
+                  
+
 
 
 
@@ -86,10 +95,12 @@ testGitHubCall auth name repo =
           manager <- newManager tlsManagerSettings
           return $ SC.mkClientEnv manager (SC.BaseUrl SC.Http "api.github.com" 80 "")
 
-        
+
         getUsers auth (GH.RepoContributor name _) =
           SC.runClientM (GH.getUser (Just "haskell-app") auth name) =<< env
 
+        getRepos auth (GH.User login _ _ _ _ _) =
+          SC.runClientM (GH.getRepos (Just "haskell-app") auth login) =<< env
 
         groupContributors :: [GH.RepoContributor] -> [GH.RepoContributor]
         groupContributors  = sortBy (\(GH.RepoContributor _ c1) (GH.RepoContributor _ c2) ->  compare c1 c2) .

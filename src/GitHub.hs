@@ -22,6 +22,7 @@ type Reponame  = Text
 
 data GitHubRepo =
   GitHubRepo { name :: Text
+             , owner :: Users
              , fullname :: Maybe Text
              , language :: Maybe Text
              } deriving (Generic, FromJSON, ToJSON, Show)
@@ -88,6 +89,12 @@ type GitHubAPI = "repos" :> Header "user-agent" UserAgent
                          :> BasicAuth "github" Int
                          :> Capture "username" Username :> Get '[JSON] User
 
+            :<|> "users" :> Header "user-agent" UserAgent
+                         :> BasicAuth "github" Int
+                         :> Capture "username" Username
+                         :> "repos"
+                         :> Get '[JSON] [GitHubRepo]
+
 
 gitHubAPI :: Proxy GitHubAPI
 gitHubAPI = Proxy
@@ -97,5 +104,6 @@ getRepoContribs ::  Maybe UserAgent -> BasicAuthData -> Username -> Reponame -> 
 getRepoCommits  ::  Maybe UserAgent -> BasicAuthData -> Username -> Reponame -> ClientM [RepoCommits]
 getRepoIssues  ::   Maybe UserAgent -> BasicAuthData -> Username -> Reponame -> ClientM [Issue]
 getUser  ::         Maybe UserAgent -> BasicAuthData -> Username -> ClientM User
+getRepos ::         Maybe UserAgent -> BasicAuthData -> Username -> ClientM [GitHubRepo]
 
-getRepo :<|> getRepoContribs :<|> getRepoCommits :<|> getRepoIssues :<|> getUser = client gitHubAPI
+getRepo :<|> getRepoContribs :<|> getRepoCommits :<|> getRepoIssues :<|> getUser :<|> getRepos = client gitHubAPI
