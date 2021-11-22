@@ -5,8 +5,9 @@ import repo from './repofile.json';
 import contrib from './contribfile.json';
 import commit from './commitfile.json';
 import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {VictoryBar, VictoryPie, VictoryChart, VictoryArea} from 'victory';
-
+import { Dropdown,DropdownButton, MenuItem } from 'react-bootstrap';
 import { Chart } from 'react-charts'
 
 
@@ -17,6 +18,7 @@ function App() {
   var [languageArray, setLanguageArray] = useState([]);
   var [contributors, setContributors] = useState([]);
   var [commits, setCommits] = useState([]);
+  var [selected, setSelected] = useState('');
 
 
   useEffect(() => {
@@ -37,6 +39,7 @@ function App() {
   const setContributorData = (data) => {
     var arr = [];
     Object.keys(data).forEach(key => arr.push([data[key].login, data[key].contributions]));
+    console.log(arr[0][0]);
     setContributors(arr);
   }
 
@@ -122,10 +125,23 @@ function App() {
     []
   )
 
+  const getMenuItems = (contrib) => {
+    let menuItems = [];
+    for(var i = 0; i < contrib.length; i++){
+      menuItems.push(<Dropdown.Item eventKey={contrib[i][0]}>{contrib[i][0]}</Dropdown.Item>);
+    }
+    return menuItems;
+  }
+
+  const handleSelect=(e)=>{
+    console.log(e);
+    setSelected(e)
+  }
+
   return (
     <div className="App">
       <h1>{repo.name}</h1>
-      <div>
+      <div style={{ width: '500px', height: '300px'}}>
         <VictoryPie
           data={languages}
         />
@@ -136,6 +152,13 @@ function App() {
       <div style={{ width: '500px', height: '300px'}}>
         <Chart data={commitChartData} series={series} axes={lineAxes} tooltip />
       </div>
+      <div className = "repo-dropdown">
+        <DropdownButton id="dropdown-basic-button" title="Dropdown button" onSelect={handleSelect}>
+          {getMenuItems(contributors)}
+        </DropdownButton>
+      </div>
+      <h4>"The person selected is {selected}"</h4>
+
     </div>
   );
 }
