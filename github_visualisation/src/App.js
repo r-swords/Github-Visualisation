@@ -5,20 +5,23 @@ import Line from './Line.js';
 import Bar from './Bar.js';
 import repo from './repofile.json';
 import contrib from './contribfile.json';
+import users from './userfile.json'
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { VictoryPie} from 'victory';
 import { Dropdown,DropdownButton } from 'react-bootstrap';
+import { Card, Icon, Image } from 'semantic-ui-react'
 
 
 
 function App() {
   const [name, setName] = useState('name');
-  var [languages, setLanguages] = useState([]);
-  var [languageArray, setLanguageArray] = useState([]);
-  var [contributors, setContributors] = useState([]);
-  var [commits, setCommits] = useState([]);
-  var [selected, setSelected] = useState('');
+  const [languages, setLanguages] = useState([]);
+  const [languageArray, setLanguageArray] = useState([]);
+  const [contributors, setContributors] = useState([]);
+  const [commits, setCommits] = useState([]);
+  const [userSelectedName, setUserSelectedName] = useState('');
+  const [userSelected, setUserSelected] = useState({});
+  const [selected, setSelected] = useState(false);
 
 
   useEffect(() => {
@@ -38,7 +41,6 @@ function App() {
   const setContributorData = (data) => {
     var arr = [];
     Object.keys(data).forEach(key => arr.push([data[key].login, data[key].contributions]));
-    console.log(arr[0][0]);
     setContributors(arr);
   }
 
@@ -50,9 +52,26 @@ function App() {
     return menuItems;
   }
 
+
   const handleSelect=(e)=>{
-    console.log(e);
-    setSelected(e)
+    setUserSelectedName(e);
+    var newObject = {};
+    for(var user in users){
+      console.log(users[user].login);
+      console.log(e);
+      if(users[user].login === e){
+        newObject = users[user];
+      }
+    }
+    console.log(newObject);
+    for(var con in contributors){
+      if(contributors[con][0] === e){
+        newObject = {...newObject, contributions: contributors[con][1]}
+      }
+    }
+    console.log(newObject);
+    setUserSelected(newObject);
+    setSelected(true);
   }
 
   return (
@@ -73,8 +92,38 @@ function App() {
         <DropdownButton id="dropdown-basic-button" title="Select Contributor" onSelect={handleSelect}>
           {getMenuItems(contributors)}
         </DropdownButton>
+        {selected && <Card>
+          <Image src={userSelected.avatar_url} wrapped ui={false} />
+          <Card.Content>
+            <Card.Header>{userSelectedName}</Card.Header>
+          </Card.Content>
+          <Card.Content extra>
+            <a>
+              <Icon name='user' />
+              {userSelected.followers} Followers
+            </a>
+          </Card.Content>
+          <Card.Content extra>
+            <a>
+              <Icon name='user' />
+              {userSelected.following} Following
+            </a>
+          </Card.Content>
+          <Card.Content extra>
+            <a>
+              <Icon name='folder' />
+              {userSelected.public_repos} Repos
+            </a>
+          </Card.Content>
+          <Card.Content extra>
+            <a>
+              <Icon name='upload' />
+              {userSelected.contributions} Contributions
+            </a>
+          </Card.Content>
+        </Card>}
       </div>
-      <h4>"The person selected is {selected}"</h4>
+
 
     </div>
   );

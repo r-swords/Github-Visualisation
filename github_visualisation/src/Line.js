@@ -15,7 +15,6 @@ function Line (){
 
 
   const setCommitsData = (data) => {
-    console.log(data);
     var obj = {};
     for(var commit in data){
       var commitDate = new Date(data[commit].commit.committer.date.substring(0,10));
@@ -30,7 +29,6 @@ function Line (){
     for(var node in obj){
         arr.push({x: new Date(node), y: obj[node]})
     }
-    console.log(arr)
     var arr2 = [];
     var currentDate = arr[arr.length - 1].x;
     var max = arr[0].x;
