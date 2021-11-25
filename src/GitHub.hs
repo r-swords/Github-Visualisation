@@ -36,10 +36,16 @@ data Committer =
   Committer { date :: Text } deriving (Generic, FromJSON, ToJSON, Show)
 
 data Commits =
-  Commits { committer :: Committer } deriving (Generic, FromJSON, ToJSON, Show)
+  Commits { committer :: Committer
+          , author :: Author} deriving (Generic, FromJSON, ToJSON, Show)
+
+data Author =
+  Author { login :: Maybe Text } deriving (Generic, FromJSON, ToJSON, Show)
 
 data RepoCommits =
-  RepoCommits { commit :: Commits } deriving (Generic, FromJSON, ToJSON, Show)
+  RepoCommits { author :: Maybe Author
+              , commit :: Commits
+              } deriving (Generic, FromJSON, ToJSON, Show)
 
 data Issue =
   Issue { title :: Text

@@ -85,7 +85,7 @@ testGitHubCall auth name repo =
                     (ers, _)-> do
                       Prelude.putStrLn $ "heuston, we have a problem (getting contributors): " ++ show ers
 
-                  
+
 
 
 

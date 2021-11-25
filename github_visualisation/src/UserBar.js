@@ -1,22 +1,9 @@
 import React from 'react'
 //
 import { Chart } from 'react-charts'
-import contrib from './contribfile.json';
-import { useState, useEffect } from 'react';
 
-function Bar (){
+function UserBar ({ data }){
 
-  const [contributors, setContributors] = useState([]);
-
-  useEffect(() => {
-    setContributorData(contrib);
-  }, [])
-
-  const setContributorData = (data) => {
-    var arr = [];
-    Object.keys(data).forEach(key => arr.push([data[key].login, data[key].contributions]));
-    setContributors(arr);
-  }
 
   const barSeries = React.useMemo(
     () => ({
@@ -28,11 +15,11 @@ function Bar (){
   const contribChartData = React.useMemo(
     () => [
       {
-        label: 'Contributor Count',
-        data: contributors
+        label: 'Language used',
+        data: data
       }
     ],
-    [contributors]
+    [data]
   )
 
   const barAxes = React.useMemo(
@@ -47,4 +34,4 @@ function Bar (){
   )
 }
 
-export default Bar;
+export default UserBar;
