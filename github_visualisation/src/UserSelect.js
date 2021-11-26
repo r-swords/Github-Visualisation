@@ -7,6 +7,7 @@ import users from './userfile.json';
 import userRepo from './userrepofile.json';
 import UserBar from './UserBar.js'
 import ReactDOM from 'react-dom';
+import ResizableBox from './ResizableBox.js'
 import { Dropdown,DropdownButton } from 'react-bootstrap';
 import { Card, Icon, Image } from 'semantic-ui-react'
 
@@ -147,12 +148,12 @@ function UserSelect() {
               </a>
             </Card.Content>
           </Card>
-          <div style={{ width: '500px', height: '300px'}}>
+          <ResizableBox>
             <UserLine data={commits}/>
-          </div>
-          <div style={{ width: '500px', height: '300px'}}>
+          </ResizableBox>
+          <ResizableBox>
             <UserBar data={language}/>
-          </div>
+          </ResizableBox>
         </>}
       </div>
   );

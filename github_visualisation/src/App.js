@@ -5,6 +5,7 @@ import Line from './Line.js';
 import Bar from './Bar.js';
 import UserSelect from './UserSelect';
 import Scatter from './Scatter';
+import ResizableBox from './ResizableBox.js'
 import repo from './repofile.json';
 import ReactDOM from 'react-dom';
 import { VictoryPie} from 'victory';
@@ -36,20 +37,20 @@ function App() {
   return (
     <div className="App">
       <h1>{repo.name}</h1>
-      <div style={{ width: '500px', height: '300px'}}>
+      <ResizableBox>
         <VictoryPie
           data={languages}
         />
-      </div>
-      <div style={{ width: '500px', height: '300px'}}>
+      </ResizableBox>
+      <ResizableBox>
         <Bar/>
-      </div>
-      <div style={{ width: '500px', height: '300px'}}>
+      </ResizableBox>
+      <ResizableBox>
         <Line/>
-      </div>
-      <div style={{ width: '500px', height: '300px'}}>
+      </ResizableBox>
+      <ResizableBox>
         <Scatter/>
-      </div>
+      </ResizableBox>
       <UserSelect/>
 
     </div>
