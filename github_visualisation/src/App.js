@@ -4,6 +4,7 @@ import './App.css';
 import Line from './Line.js';
 import Bar from './Bar.js';
 import UserSelect from './UserSelect';
+import Scatter from './Scatter';
 import repo from './repofile.json';
 import ReactDOM from 'react-dom';
 import { VictoryPie} from 'victory';
@@ -17,7 +18,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("https://api.github.com/repos/r-swords/LCAJava/languages")
+    fetch("https://api.github.com/repos/r-swords/Github-Visualisation/languages")
       .then(res => res.json())
       .then(data => setLanguageData(data));
   }, [])
@@ -46,8 +47,10 @@ function App() {
       <div style={{ width: '500px', height: '300px'}}>
         <Line/>
       </div>
+      <div style={{ width: '500px', height: '300px'}}>
+        <Scatter/>
+      </div>
       <UserSelect/>
-
 
     </div>
   );
