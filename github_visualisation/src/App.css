@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  align-items: center;
 }
 
 .App-logo {
@@ -30,6 +31,29 @@
 
 .App-link {
   color: #61dafb;
+}
+.float-container {
+   margin: 1rem;
+   padding: 10px;
+   text-align: center;
+   justify-content: center;
+}
+
+.centre {
+  height: 100vh; /* Magic here */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.card{
+  padding: 20px
+}
+
+.float-child {
+   display: inline-block;
+   padding: 1rem 1rem;
+   vertical-align: middle;
 }
 
 @keyframes App-logo-spin {

@@ -37,21 +37,35 @@ function App() {
   return (
     <div className="App">
       <h1>{repo.name}</h1>
-      <ResizableBox>
-        <VictoryPie
-          data={languages}
-        />
-      </ResizableBox>
-      <ResizableBox>
-        <Bar/>
-      </ResizableBox>
-      <ResizableBox>
-        <Line/>
-      </ResizableBox>
-      <ResizableBox>
-        <Scatter/>
-      </ResizableBox>
-      <UserSelect/>
+      <div class="float-container">
+        <div class="float-child">
+          <ResizableBox>
+            <VictoryPie
+              data={languages}
+            />
+          </ResizableBox>
+        </div>
+        <div class="float-child">
+          <ResizableBox>
+            <Bar/>
+          </ResizableBox>
+        </div>
+      </div>
+      <div class="float-container">
+        <div class="float-child">
+          <ResizableBox>
+            <Line/>
+          </ResizableBox>
+        </div>
+        <div class="float-child">
+          <ResizableBox>
+            <Scatter/>
+          </ResizableBox>
+        </div>
+      </div>
+      <div class="float-container">
+        <UserSelect/>
+      </div>
 
     </div>
   );

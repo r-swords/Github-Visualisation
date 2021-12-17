@@ -1,4 +1,5 @@
 import React from 'react'
+import './App.css';
 import { useState, useEffect } from 'react';
 import UserLine from './UserLine.js';
 import contrib from './contribfile.json';
@@ -118,42 +119,50 @@ function UserSelect() {
         </DropdownButton>
         {selected &&
           <>
+            <div class = "centre">
             <Card>
-            <Image src={userSelected.avatar_url} wrapped ui={false} />
-            <Card.Content>
-              <Card.Header>{userSelectedName}</Card.Header>
-            </Card.Content>
-            <Card.Content extra>
-              <a>
-                <Icon name='user' />
-                {userSelected.followers} Followers
-              </a>
-            </Card.Content>
-            <Card.Content extra>
-              <a>
-                <Icon name='user' />
-                {userSelected.following} Following
-              </a>
-            </Card.Content>
-            <Card.Content extra>
-              <a>
-                <Icon name='folder' />
-                {userSelected.public_repos} Repos
-              </a>
-            </Card.Content>
-            <Card.Content extra>
-              <a>
-                <Icon name='upload' />
-                {userSelected.contributions} Contributions
-              </a>
-            </Card.Content>
-          </Card>
-          <ResizableBox>
-            <UserLine data={commits}/>
-          </ResizableBox>
-          <ResizableBox>
-            <UserBar data={language}/>
-          </ResizableBox>
+              <Image src={userSelected.avatar_url} wrapped ui={false} />
+              <Card.Content>
+                <Card.Header>{userSelectedName}</Card.Header>
+              </Card.Content>
+              <Card.Content extra>
+                <a>
+                  <Icon name='user' />
+                  {userSelected.followers} Followers
+                </a>
+              </Card.Content>
+              <Card.Content extra>
+                <a>
+                  <Icon name='user' />
+                  {userSelected.following} Following
+                </a>
+              </Card.Content>
+              <Card.Content extra>
+                <a>
+                  <Icon name='folder' />
+                  {userSelected.public_repos} Repos
+                </a>
+              </Card.Content>
+              <Card.Content extra>
+                <a>
+                  <Icon name='upload' />
+                  {userSelected.contributions} Contributions
+                </a>
+              </Card.Content>
+            </Card>
+          </div>
+          <div class="float-container">
+            <div class="float-child">
+              <ResizableBox>
+                <UserLine data={commits}/>
+              </ResizableBox>
+            </div>
+            <div class="float-child">
+              <ResizableBox class="float-child">
+                <UserBar data={language}/>
+              </ResizableBox>
+            </div>
+          </div>
         </>}
       </div>
   );
