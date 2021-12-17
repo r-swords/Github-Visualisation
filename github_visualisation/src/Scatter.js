@@ -37,8 +37,12 @@ function Scatter (){
         comCount++;
       }
     }
-    var arr = [comCount, actCount, 5];
-    return arr;
+    if(actCount > 0){
+      var ratio = (comCount/actCount)*2
+      var arr = [comCount, actCount, ratio];
+      return arr;
+    }
+    return null;
   }
 
   const series = React.useMemo(
