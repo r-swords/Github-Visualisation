@@ -8,10 +8,14 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.container{
+  max-width: 500px;
+  margin: 30px auto;
+  overflow: auto;
+  min-height: 30px;
+  border: 1px solid steelblue;
+  padding: 30px;
+  border-radius: 10px;
 }
 
 .App-header {
@@ -24,6 +28,8 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+
 
 .repo-dropdown {
   margin-top: 10.0%;
@@ -40,15 +46,12 @@
 }
 
 .centre {
-  height: 100vh; /* Magic here */
+  height: 100vh;
    display: flex;
    justify-content: center;
    align-items: center;
 }
 
-.card{
-  padding: 20px
-}
 
 .float-child {
    display: inline-block;

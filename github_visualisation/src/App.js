@@ -35,7 +35,7 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div className="App" class="container">
       <h1>{repo.name}</h1>
       <div class="float-container">
         <div class="float-child">
