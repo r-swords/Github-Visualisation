@@ -154,11 +154,13 @@ function UserSelect() {
           <div class="float-container">
             <div class="float-child">
               <ResizableBox>
+                Commits Timeline
                 <UserLine data={commits}/>
               </ResizableBox>
             </div>
             <div class="float-child">
               <ResizableBox class="float-child">
+                Languages used in users repositories
                 <UserBar data={language}/>
               </ResizableBox>
             </div>

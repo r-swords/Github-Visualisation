@@ -40,12 +40,14 @@ function App() {
       <div class="float-container">
         <div class="float-child">
           <ResizableBox>
+            Languages Used
             <VictoryPie
               data={languages}
             />
           </ResizableBox>
         </div>
         <div class="float-child">
+          Contributions Made (y-axis) vs Contributor (x-axis)
           <ResizableBox>
             <Bar/>
           </ResizableBox>
@@ -54,11 +56,13 @@ function App() {
       <div class="float-container">
         <div class="float-child">
           <ResizableBox>
+            Number of Commits (y-axis) vs Date (x-axis)
             <Line/>
           </ResizableBox>
         </div>
         <div class="float-child">
           <ResizableBox>
+            Active Days (y-axis) vs Commits (x-axis) per contributor
             <Scatter/>
           </ResizableBox>
         </div>
