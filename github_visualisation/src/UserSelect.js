@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css';
 import { useState, useEffect } from 'react';
 import UserLine from './UserLine.js';
 import contrib from './contribfile.json';
@@ -9,8 +8,8 @@ import userRepo from './userrepofile.json';
 import UserBar from './UserBar.js'
 import ReactDOM from 'react-dom';
 import ResizableBox from './ResizableBox.js'
-import { Dropdown,DropdownButton } from 'react-bootstrap';
-import { Card, Icon, Image } from 'semantic-ui-react'
+import './App.css';
+import { Dropdown,DropdownButton,Card,ListGroup,ListGroupItem } from 'react-bootstrap';
 
 
 
@@ -119,37 +118,19 @@ function UserSelect() {
         </DropdownButton>
         {selected &&
           <>
-            <div class = "centre">
-            <Card>
-              <Image src={userSelected.avatar_url} wrapped ui={false} />
-              <Card.Content>
-                <Card.Header>{userSelectedName}</Card.Header>
-              </Card.Content>
-              <Card.Content extra>
-                <a>
-                  <Icon name='user' />
-                  {userSelected.followers} Followers
-                </a>
-              </Card.Content>
-              <Card.Content extra>
-                <a>
-                  <Icon name='user' />
-                  {userSelected.following} Following
-                </a>
-              </Card.Content>
-              <Card.Content extra>
-                <a>
-                  <Icon name='folder' />
-                  {userSelected.public_repos} Repos
-                </a>
-              </Card.Content>
-              <Card.Content extra>
-                <a>
-                  <Icon name='upload' />
-                  {userSelected.contributions} Contributions
-                </a>
-              </Card.Content>
-            </Card>
+          <div class="centre">
+          <Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={userSelected.avatar_url} />
+            <Card.Body>
+              <Card.Title>{userSelectedName}</Card.Title>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              <ListGroupItem>{userSelected.followers} Followers</ListGroupItem>
+              <ListGroupItem>{userSelected.following} Following</ListGroupItem>
+              <ListGroupItem>{userSelected.public_repos} Repos</ListGroupItem>
+              <ListGroupItem>{userSelected.contributions} Contributions</ListGroupItem>
+            </ListGroup>
+          </Card>
           </div>
           <div class="float-container">
             <div class="float-child">
@@ -165,7 +146,8 @@ function UserSelect() {
               </ResizableBox>
             </div>
           </div>
-        </>}
+          </>
+          }
       </div>
   );
 }
