@@ -41,4 +41,6 @@ RUN mkdir -p /opt/github-get
 WORKDIR /opt/github-get
 ENTRYPOINT ["/opt/github-get/github-get-exe"]
 COPY --from=compile-image /opt/github-get/.stack-work/dist/x86_64-linux/Cabal-3.0.1.0/build/github-get-exe/github-get-exe .
+COPY --from=compile-image /opt/github-get/ .
+RUN rm -r /opt/github-get/github_visualisation
 CMD [""]
