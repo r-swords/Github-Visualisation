@@ -25,7 +25,7 @@ function UserSelect() {
   useEffect(() => {
     setContributorData(contrib);
   }, [])
-
+  // process data for commits of user
   const setCommitsData = (data, name) => {
     var obj = {};
     for(var com in data){
@@ -59,7 +59,7 @@ function UserSelect() {
     }
     setCommits(arr2);
   }
-
+  // process data for user language bar chart
   const setLanguageData = (data, name) => {
     var obj = {};
     console.log(data);
@@ -83,6 +83,7 @@ function UserSelect() {
     setContributors(arr);
   }
 
+  // add each contributor as a menu item
   const getMenuItems = (contrib) => {
     let menuItems = [];
     for(var i = 0; i < contrib.length; i++){
@@ -91,7 +92,7 @@ function UserSelect() {
     return menuItems;
   }
 
-
+  // selects user
   const handleSelect=(e)=>{
     setUserSelectedName(e);
     var newObject = {};

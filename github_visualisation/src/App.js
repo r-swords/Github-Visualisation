@@ -12,19 +12,25 @@ import { VictoryPie} from 'victory';
 
 
 
+// ENTER USERNAME AND REPO HERE!!!!!!!!!!
+const repoUser = "USERNAME"
+const mainRepo = "REPOSITORY"
+
+
+
 function App() {
   const [name, setName] = useState('name');
   const [languages, setLanguages] = useState([]);
   const [languageArray, setLanguageArray] = useState([]);
 
-
+// get data for pie chart
   useEffect(() => {
-    fetch("https://api.github.com/repos/r-swords/Github-Visualisation/languages")
+    fetch("https://api.github.com/repos/"+repoUser+"/"+mainRepo+"/languages")
       .then(res => res.json())
       .then(data => setLanguageData(data));
   }, [])
 
-
+// process data for pie char
   const setLanguageData = (data) => {
     var arr = [];
     Object.keys(data).forEach(key => arr.push({x: key, y: data[key]}));

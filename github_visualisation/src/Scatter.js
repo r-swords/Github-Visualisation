@@ -22,7 +22,7 @@ function Scatter (){
   }, [])
 
 
-
+  // proccess data for chart
   const setCommitsData = (data, name) => {
     var obj = {};
     var comCount = 0;
@@ -38,13 +38,13 @@ function Scatter (){
       }
     }
     if(actCount > 0){
-      var ratio = (comCount/actCount)*2
+      var ratio = (comCount/actCount)
       var arr = [comCount, actCount, ratio];
       return arr;
     }
     return null;
   }
-
+  // set chart type
   const series = React.useMemo(
     () => ({
       type: 'bubble',
@@ -52,14 +52,14 @@ function Scatter (){
     }),
     []
   )
-
+  // set chart data
   const createLabel = (array, label) =>{
     return {
       label: label,
       data: [array]
     }
   }
-
+  // set chart axes
   const bubbleAxes = React.useMemo(
     () => [
       { primary: true, type: 'linear', position: 'bottom' },

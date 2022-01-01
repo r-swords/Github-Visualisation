@@ -13,7 +13,7 @@ function Line (){
     setCommitsData(commit);
   }, [])
 
-
+  // process data for chart
   const setCommitsData = (data) => {
     var obj = {};
     for(var commit in data){
@@ -45,14 +45,14 @@ function Line (){
     }
     setCommits(arr2);
   }
-
+  // set chart type
   const series = React.useMemo(
     () => ({
       showPoints: false
     }),
     []
   )
-
+  // set chart data
   const commitData = React.useMemo(
     () => [
       {
@@ -62,6 +62,7 @@ function Line (){
     ],
     [commits],
   )
+  // set chart axes
   const lineAxes = React.useMemo(
     () => [
       { primary: true, type: 'utc', position: 'bottom' },
