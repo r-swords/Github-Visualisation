@@ -1,15 +1,14 @@
 import React from 'react'
 //
 import { Chart } from 'react-charts'
-import commit from './commitfile.json'
-import contrib from './contribfile.json'
+import commit from './data/commitfile.json'
+import contrib from './data/contribfile.json'
 import { useState, useEffect } from 'react';
 
 function Scatter (){
 
   const [commits, setCommits] = useState([]);
-  const [currentUserData, setCurrentUserData] = useState([]);
-  const [userName, setUserName] = useState('');
+  
 
 
 

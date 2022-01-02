@@ -6,7 +6,7 @@ import Bar from './Bar.js';
 import UserSelect from './UserSelect';
 import Scatter from './Scatter';
 import ResizableBox from './ResizableBox.js'
-import repo from './repofile.json';
+import repo from './data/repofile.json';
 import ReactDOM from 'react-dom';
 import { VictoryPie} from 'victory';
 
@@ -19,9 +19,7 @@ const mainRepo = "REPOSITORY"
 
 
 function App() {
-  const [name, setName] = useState('name');
   const [languages, setLanguages] = useState([]);
-  const [languageArray, setLanguageArray] = useState([]);
 
 // get data for pie chart
   useEffect(() => {

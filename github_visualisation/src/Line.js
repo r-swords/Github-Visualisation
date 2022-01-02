@@ -1,7 +1,7 @@
 import React from 'react'
 //
 import { Chart } from 'react-charts'
-import commit from './commitfile.json'
+import commit from './data/commitfile.json'
 import { useState, useEffect } from 'react';
 
 function Line (){

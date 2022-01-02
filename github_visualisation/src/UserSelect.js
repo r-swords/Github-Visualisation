@@ -1,12 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import UserLine from './UserLine.js';
-import contrib from './contribfile.json';
-import commit from './commitfile.json';
-import users from './userfile.json';
-import userRepo from './userrepofile.json';
+import contrib from './data/contribfile.json';
+import commit from './data/commitfile.json';
+import users from './data/userfile.json';
+import userRepo from './data/userrepofile.json';
 import UserBar from './UserBar.js'
-import ReactDOM from 'react-dom';
 import ResizableBox from './ResizableBox.js'
 import './App.css';
 import { Dropdown,DropdownButton,Card,ListGroup,ListGroupItem } from 'react-bootstrap';
@@ -67,7 +66,7 @@ function UserSelect() {
       for(var repo in data[use]){
         if(data[use][repo].language !== null){
           if(name === data[use][repo].owner.login && obj[data[use][repo].language]) obj[data[use][repo].language]++;
-          else if(name == data[use][repo].owner.login) obj[data[use][repo].language] = 1;
+          else if(name === data[use][repo].owner.login) obj[data[use][repo].language] = 1;
         }
       }
     }

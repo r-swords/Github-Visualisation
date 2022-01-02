@@ -1,7 +1,6 @@
 import React from 'react'
 //
 import { Chart } from 'react-charts'
-import commit from './commitfile.json'
 
 function UserLine ({ data }){
 

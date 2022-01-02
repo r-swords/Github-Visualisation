@@ -45,50 +45,50 @@ someFunc = do
 
 
 testGitHubCall :: BasicAuthData -> Data.Text.Text -> Data.Text.Text -> IO ()
+-- fetch main repo
 testGitHubCall auth name repo =
   (SC.runClientM (GH.getRepo (Just "haskell-app") auth name repo) =<< env) >>= \case
 
     Left err -> do
       Prelude.putStrLn $ "heuston, we have a problem: " ++ show err
     Right rep -> do
-      I.writeFile "github_visualisation/src/repofile.json" (encodeToLazyText rep)
+      I.writeFile "github_visualisation/src/data/repofile.json" (encodeToLazyText rep)
 
+      -- fetch repo contributors
       (SC.runClientM (GH.getRepoContribs (Just "haskell-app") auth name repo) =<< env) >>= \case
         Left err -> do
           Prelude.putStrLn $ "heuston, we have a problem: " ++ show err
         Right lang -> do
-          I.writeFile "github_visualisation/src/contribfile.json" (encodeToLazyText lang)
+          I.writeFile "github_visualisation/src/data/contribfile.json" (encodeToLazyText lang)
 
+          -- fetch repo commits
           (SC.runClientM (GH.getRepoCommits (Just "haskell-app") auth name repo) =<< env) >>= \case
             Left err -> do
               Prelude.putStrLn $ "heuston, we have a problem: " ++ show err
             Right com -> do
-              I.writeFile "github_visualisation/src/commitfile.json" (encodeToLazyText com)
+              I.writeFile "github_visualisation/src/data/commitfile.json" (encodeToLazyText com)
 
+              -- fetch issues
               (SC.runClientM (GH.getRepoIssues (Just "haskell-app") auth name repo) =<< env) >>= \case
                 Left err -> do
                   Prelude.putStrLn $ "heuston, we have a problem: " ++ show err
                 Right iss -> do
-                  I.writeFile "github_visualisation/src/issuefile.json" (encodeToLazyText iss)
+                  I.writeFile "github_visualisation/src/data/issuefile.json" (encodeToLazyText iss)
 
                   (partitionEithers <$> mapM (getUsers auth) lang) >>= \case
-
+                  -- fetch the profile of each contributor
                     ([], contribs) -> do
-                      I.writeFile "github_visualisation/src/userfile.json" (encodeToLazyText contribs)
+                      I.writeFile "github_visualisation/src/data/userfile.json" (encodeToLazyText contribs)
+                      -- fetch the repositories owned by each contributor
                       (partitionEithers <$> mapM (getRepos auth) contribs) >>= \case
                         ([], repositories) -> do
-                          I.writeFile "github_visualisation/src/userrepofile.json" (encodeToLazyText repositories)
+                          I.writeFile "github_visualisation/src/data/userrepofile.json" (encodeToLazyText repositories)
 
                         (errs, _)-> do
                           Prelude.putStrLn $ "heuston, we have a problem (getting repos): " ++ show errs
 
                     (ers, _)-> do
                       Prelude.putStrLn $ "heuston, we have a problem (getting contributors): " ++ show ers
-
-
-
-
-
 
   where env :: IO SC.ClientEnv
         env = do
@@ -101,11 +101,3 @@ testGitHubCall auth name repo =
 
         getRepos auth (GH.User login _ _ _ _ _) =
           SC.runClientM (GH.getRepos (Just "haskell-app") auth login) =<< env
-
-        groupContributors :: [GH.RepoContributor] -> [GH.RepoContributor]
-        groupContributors  = sortBy (\(GH.RepoContributor _ c1) (GH.RepoContributor _ c2) ->  compare c1 c2) .
-                             map mapfn .
-                             groupBy (\(GH.RepoContributor l1 _) (GH.RepoContributor l2 _) ->  l1 == l2)
-         where mapfn :: [GH.RepoContributor] -> GH.RepoContributor
-               mapfn xs@((GH.RepoContributor l _):_) = GH.RepoContributor l . sum $
-                                                       map (\(GH.RepoContributor _ c) -> c)  xs

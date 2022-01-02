@@ -1,6 +1,6 @@
 import React from 'react'
 import { Chart } from 'react-charts'
-import contrib from './contribfile.json';
+import contrib from './data/contribfile.json';
 import { useState, useEffect } from 'react';
 
 function Bar (){
